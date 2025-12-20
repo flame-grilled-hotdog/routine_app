@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:routine_app/app/main_screen.dart';
+import 'package:routine_app/screen/main_screen.dart';
 
 /// アプリ本体
 class MyApp extends StatelessWidget {
