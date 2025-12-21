@@ -112,45 +112,46 @@ class _GoalSetState extends State<GoalSet> {
 
   @override
   Widget build(BuildContext context) {
-        String _title = '';
-        String _descrip = '';
-        String _frequency = '';
-        String _times = '';
-        String _term = '';
+        String title = '';
+        String descrip = '';
+        String frequency = '';
+        String times = '';
+        String term = '';
 
         return Container(
           color: Colors.white,
           child: 
             Form(child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
               child: Column(children: [
-                  TextFormField(decoration: const InputDecoration(labelText: '目標タイトル'), maxLines: 1, onChanged: (value) {String _title = value;}),
-                  TextFormField(decoration: const InputDecoration(labelText: '説明'), maxLines: 3, onChanged: (value) {String _descrip = value;}),
+                  TextFormField(decoration: const InputDecoration(labelText: '目標タイトル'), maxLines: 1, onChanged: (value) {String title = value;}),
+                  TextFormField(decoration: const InputDecoration(labelText: '説明'), maxLines: 3, onChanged: (value) {String descrip = value;}),
                   DropdownButtonFormField(
                     decoration: const InputDecoration(labelText: '実施頻度（回数/）'),
                     items: ['1','2','3','4','5','6','7','8','9'].map((String value) {return DropdownMenuItem<String>(value: value,child: Text(value));}).toList(),
-                    onChanged: (value) {setState(() {_times = value!;});}),
+                    onChanged: (value) {setState(() {times = value!;});}),
                   DropdownButtonFormField(
                     decoration: const InputDecoration(labelText: '実施頻度（/週間）'),
                     items: ['日','週','月'].map((String value) {return DropdownMenuItem<String>(value: value,child: Text(value));}).toList(),
-                    onChanged: (value) {setState(() {_frequency = value!;});}),
+                    onChanged: (value) {setState(() {frequency = value!;});}),
                   DropdownButtonFormField(
                     decoration: const InputDecoration(labelText: '期間'),
                     items: ['3日','7日（1週間）','30日（1か月間）','60日（2か月間)','365日（1年間）'].map((String value) {return DropdownMenuItem<String>(value: value,child: Text(value));}).toList(),
-                    onChanged: (String? value) {setState(() {_term = value!;});}),
+                    onChanged: (String? value) {setState(() {term = value!;});}),
                   const SizedBox(height: 16),
                   ElevatedButton(onPressed: () {
-                    goalAdd(_title, _descrip, _frequency, int.parse(_times), _term);
+                    goalAdd(title, descrip, frequency, int.parse(times), term);
                     Navigator.pop(context);}, child: const Text('追加'))
               ])
           ))
         );
       }
-      
+
+  // TODO 目標追加処理が動かない
   void goalAdd(String title, String descrip, String frequency, int times, String term) {
-    String id = 'G'+(MainScreenApp.getValidGoal.length+1).toString().padLeft(5,'0');
+    String num = (MainScreenApp.getValidGoal.length+1).toString().padLeft(5,'0');
     String termInt = term.replaceAll(RegExp(r'[^0-9]'),'');
-    GoalEntity goal=GoalEntity(id: id, title: title, descrip: descrip, times: times, frequency: frequency, term: int.parse(termInt), stime: DateTime.now(), etime: DateTime.now().add(Duration(days: int.parse(termInt))));
+    GoalEntity goal=GoalEntity(id: 'G$num', title: title, descrip: descrip, times: times, frequency: frequency, term: int.parse(termInt), stime: DateTime.now(), etime: DateTime.now().add(Duration(days: int.parse(termInt))));
     MainScreenApp.addGoal(goal);
   }
 }
