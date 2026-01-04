@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import '../app/unity/unity_bridge.dart';
 import '../app/unity/unity_city_api.dart';
+import 'main_screen.dart';
 
 class CityUnityPage extends StatefulWidget {
   const CityUnityPage({super.key});
@@ -27,10 +28,21 @@ class _CityUnityPageState extends State<CityUnityPage> {
           ),
         ],
       ),
-      body: UnityWidget(
-        onUnityCreated: bridge.onUnityCreated,
-        onUnityMessage: bridge.onUnityMessage,
-        fullscreen: true,
+      body: Stack(
+        children: [
+          UnityWidget(
+            onUnityCreated: bridge.onUnityCreated,
+            onUnityMessage: bridge.onUnityMessage,
+            fullscreen: true,
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: MainScreen(
+              onCommand: (cmd) => cityApi.sendCommand(cmd),
+              onExportJson: () => cityApi.requestExportJson(),
+            ),
+          ),
+        ],
       ),
     );
   }

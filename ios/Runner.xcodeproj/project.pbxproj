@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
-		27E759F22F09129000C5CAAB /* UnityFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DA6CC02EFF796C00F98747 /* UnityFramework.framework */; };
-		27E759F32F09129000C5CAAB /* UnityFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 27DA6CC02EFF796C00F98747 /* UnityFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		276CDA0E2F0A181800D5874C /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 276CDA0D2F0A181800D5874C /* Pods_Runner.framework */; };
+		27BC85F52F0A15E100095668 /* UnityFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DA6CC02EFF796C00F98747 /* UnityFramework.framework */; };
+		27BC85F62F0A15E100095668 /* UnityFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 27DA6CC02EFF796C00F98747 /* UnityFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
-		78074E24ACFE3E14C1652236 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4C3CBAEC2F3A04EA2E12964 /* Pods_Runner.framework */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
@@ -49,13 +49,6 @@
 			remoteGlobalIDString = 7F4E05A02717216D00A2CBE4;
 			remoteInfo = GameAssembly;
 		};
-		27DA6CF92EFFA0EB00F98747 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 27DA6CB42EFF796B00F98747 /* Unity-iPhone.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 9D25AB9C213FB47800354C27;
-			remoteInfo = UnityFramework;
-		};
 		331C8085294A63A400263BE5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
@@ -66,13 +59,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		27DA6CFD2EFFA14000F98747 /* Embed Frameworks */ = {
+		27BC85F72F0A15E100095668 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				27E759F32F09129000C5CAAB /* UnityFramework.framework in Embed Frameworks */,
+				27BC85F62F0A15E100095668 /* UnityFramework.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -82,6 +75,7 @@
 /* Begin PBXFileReference section */
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
+		276CDA0D2F0A181800D5874C /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		27DA6CB42EFF796B00F98747 /* Unity-iPhone.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Unity-iPhone.xcodeproj"; path = "UnityLibrary/Unity-iPhone.xcodeproj"; sourceTree = "<group>"; };
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,8 +113,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78074E24ACFE3E14C1652236 /* Pods_Runner.framework in Frameworks */,
-				27E759F22F09129000C5CAAB /* UnityFramework.framework in Frameworks */,
+				276CDA0E2F0A181800D5874C /* Pods_Runner.framework in Frameworks */,
+				27BC85F52F0A15E100095668 /* UnityFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,6 +143,7 @@
 		8CE5AA454434D40B50BEE280 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				276CDA0D2F0A181800D5874C /* Pods_Runner.framework */,
 				F4C3CBAEC2F3A04EA2E12964 /* Pods_Runner.framework */,
 				DC48163C49C6FA2825C14E83 /* Pods_RunnerTests.framework */,
 			);
@@ -248,13 +243,12 @@
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
 				0652BD9104D39E57A3C57735 /* [CP] Embed Pods Frameworks */,
-				27DA6CFD2EFFA14000F98747 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
+				27BC85F72F0A15E100095668 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				27DA6CFA2EFFA0EB00F98747 /* PBXTargetDependency */,
 			);
 			name = Runner;
 			productName = Runner;
@@ -410,7 +404,6 @@
 			files = (
 			);
 			inputPaths = (
-				"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}",
 			);
 			name = "Thin Binary";
 			outputPaths = (
@@ -479,11 +472,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		27DA6CFA2EFFA0EB00F98747 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = UnityFramework;
-			targetProxy = 27DA6CF92EFFA0EB00F98747 /* PBXContainerItemProxy */;
-		};
 		331C8086294A63A400263BE5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 97C146ED1CF9000F007C117D /* Runner */;
@@ -568,6 +556,7 @@
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = D5HH42CW4C;
@@ -755,6 +744,7 @@
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = D5HH42CW4C;
@@ -782,6 +772,7 @@
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = D5HH42CW4C;
