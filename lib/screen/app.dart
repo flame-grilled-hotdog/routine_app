@@ -35,9 +35,25 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const MainScreen())
+        // MaterialPageRoute(builder: (context) => const MainScreen())
+        MaterialPageRoute(
+          builder: (context) => MainScreen(
+            onCommand: _onUnityCommand,
+            onExportJson: _onExportJson,
+          ),
+        ),
       );
     });
+  }
+
+  void _onUnityCommand(String cmd) {
+    debugPrint('[MainScreen] command: $cmd');
+    // TODO: ここで unity_bridge などへ送る
+  }
+
+  void _onExportJson() {
+    debugPrint('[MainScreen] export json');
+    // TODO: export の実処理
   }
 
   @override

@@ -1,47 +1,64 @@
 import 'package:flutter/material.dart';
 
-/// メイン画面
+/// Unity上に重ねて表示する操作UI（Flutter側）
 class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+  final void Function(String cmd) onCommand;
+  final VoidCallback onExportJson;
+
+  const MainScreen({
+    super.key,
+    required this.onCommand,
+    required this.onExportJson,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 253, 207, 0),
-      body: Center(child: 
-        Column(
-        children: [
-          Container(
-            width: 600,
-            height: 120,
-            child: const Panel(
-                      title: '目標１',
-                      child: Column(
-                        children: const [
-                          Text('７時に起きる'),
-                          Text('毎日続けるとポイントゲット！'),
-                        ],
-                      ),
-                    ),
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.45),
+            borderRadius: BorderRadius.circular(12),
           ),
-          Expanded(
-            child: Container(
-              width: 400,
-              color: const Color.fromARGB(255, 92, 93, 100),
-              child: const Center(child: Text('下層（リワード）')),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () => onCommand('save'),
+                  child: const Text('Save'),
+                ),
+                ElevatedButton(
+                  onPressed: () => onCommand('load'),
+                  child: const Text('Load'),
+                ),
+                ElevatedButton(
+                  onPressed: () => onCommand('clear'),
+                  child: const Text('Clear'),
+                ),
+                ElevatedButton(
+                  onPressed: () => onCommand('rotate'),
+                  child: const Text('Rotate'),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.download, color: Colors.white),
+                  tooltip: 'Export JSON',
+                  onPressed: onExportJson,
+                ),
+              ],
             ),
           ),
-          Container(
-              width: 600,
-              height: 100,
-              color: const Color.fromARGB(255, 214, 215, 219),
-              child: const Center(child: Text('下層（広告）')),
-            )
-        ],
-      )
-    )
+        ),
+      ),
     );
   }
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     body: Center(child: Text('Hello Flutter')),
+  //   );
+  // }
 }
 
 /// 上層部
