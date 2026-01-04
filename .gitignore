@@ -43,3 +43,27 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Uu]ser[Ss]ettings/
+Logs/
+MemoryCaptures/
+unity/
+
+# Unity Package Cache
+[Ll]ibrary/PackageCache/
+
+# iOS (Unity export)
+ios/UnityLibrary/
+ios/build/
+ios/Pods/
+ios/*.xcworkspace
+ios/*.xcodeproj/project.xcworkspace/
+
+# macOS
+.DS_Store
