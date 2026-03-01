@@ -26,9 +26,7 @@ class _MainScreenState extends State<MainScreen> {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                for (int i=0; i<lst.length; i++) ...({
-                  Panel(num: i+1, child: Text(lst[i].title)),
-                }),
+                for (int i=0; i<lst.length; i++) ...({Panel(num: i+1, child: Text(lst[i].title))}),
                   Panel(num: 0, child: const Text('')),
               ]
             )
@@ -108,7 +106,6 @@ class GoalSet extends StatefulWidget {
 }
 
 class _GoalSetState extends State<GoalSet> {
-
 
   @override
   Widget build(BuildContext context) {
