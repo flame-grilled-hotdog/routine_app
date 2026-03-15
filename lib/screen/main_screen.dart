@@ -11,23 +11,25 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
 
+  List<GoalEntity> lst = MainScreenApp.getValidGoal;
+
   @override
   Widget build(BuildContext context) {
     // MainScreenApp model=context.read<MainScreenApp>();
-    List<GoalEntity> lst = MainScreenApp.getValidGoal;
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 253, 207, 0),
       body: SafeArea(child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            width: 600,
+            // width: 600,
             height: 120,
             child: ListView(
               scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
               children: [
-                for (int i=0; i<lst.length; i++) ...({Panel(num: i+1, goalTittle: Text(lst[i].title))}),
-                  Panel(num: 0, goalTittle: const Text('')),
+                for (int i=0; i<lst.length; i++) (Panel(num: i+1, goalTittle: Text(lst[i].title))),
+                if (lst.length<3) Panel(num: 0, goalTittle: const Text(''), onGoalAdd: () { setState(() { lst = MainScreenApp.getValidGoal;});}) // 画面更新 
               ]
             )
           ),
@@ -54,13 +56,14 @@ class _MainScreenState extends State<MainScreen> {
 class Panel extends StatelessWidget {
   final int num;
   final Widget goalTittle;
+  final VoidCallback? onGoalAdd;
 
-  const Panel({super.key, required this.num, required this.goalTittle});
+  const Panel({super.key, required this.num, required this.goalTittle, this.onGoalAdd});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery.of(context).size.width * 0.9,
       child: Card(
         color: const Color.fromARGB(255, 202, 205, 228),
         // elevation: 2,
@@ -73,7 +76,10 @@ class Panel extends StatelessWidget {
               if (num==0) ...({
                 const SizedBox(height: 12),
                 ElevatedButton(
-                  onPressed: () {showModalBottomSheet(context: context, builder: (context) => const GoalSet());},
+                  onPressed: () async{
+                      await showModalBottomSheet(context: context, builder: (context) => const GoalSet());
+                      onGoalAdd!();
+                    },
                   style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 204, 0)),
                   child: const Text('＋'),
                 )
@@ -101,48 +107,33 @@ class GoalSet extends StatefulWidget {
 
 class _GoalSetState extends State<GoalSet> {
 
+  String title = '';
+  String descrip = '';
+
   @override
   Widget build(BuildContext context) {
-        String title = '';
-        String descrip = '';
-        String frequency = '';
-        String times = '';
-        String term = '';
-
         return Container(
           color: Colors.white,
           child: 
             Form(child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
               child: Column(children: [
-                  TextFormField(decoration: const InputDecoration(labelText: '目標タイトル'), maxLines: 1, onChanged: (value) {String title = value;}),
-                  TextFormField(decoration: const InputDecoration(labelText: '説明'), maxLines: 3, onChanged: (value) {String descrip = value;}),
-                  DropdownButtonFormField(
-                    decoration: const InputDecoration(labelText: '実施頻度（回数/）'),
-                    items: ['1','2','3','4','5','6','7','8','9'].map((String value) {return DropdownMenuItem<String>(value: value,child: Text(value));}).toList(),
-                    onChanged: (value) {setState(() {times = value!;});}),
-                  DropdownButtonFormField(
-                    decoration: const InputDecoration(labelText: '実施頻度（/週間）'),
-                    items: ['日','週','月'].map((String value) {return DropdownMenuItem<String>(value: value,child: Text(value));}).toList(),
-                    onChanged: (value) {setState(() {frequency = value!;});}),
-                  DropdownButtonFormField(
-                    decoration: const InputDecoration(labelText: '期間'),
-                    items: ['3日','7日（1週間）','30日（1か月間）','60日（2か月間)','365日（1年間）'].map((String value) {return DropdownMenuItem<String>(value: value,child: Text(value));}).toList(),
-                    onChanged: (String? value) {setState(() {term = value!;});}),
-                  const SizedBox(height: 16),
+                  TextFormField(decoration: const InputDecoration(labelText: '目標タイトル'), maxLines: 1, onChanged: (value) {title = value;}),
+                  TextFormField(decoration: const InputDecoration(labelText: '説明'), maxLines: 1, onChanged: (value) {descrip = value;}),
+                  Text('1日1回（7回）'),
+                  const SizedBox(height: 8),
                   ElevatedButton(onPressed: () {
-                    goalAdd(title, descrip, frequency, int.parse(times), term);
-                    Navigator.pop(context);}, child: const Text('追加'))
+                    goalAdd(title, descrip);
+                    Navigator.pop(context, true);}, child: const Text('追加'))
               ])
           ))
         );
       }
 
   // TODO 目標追加処理が動かない
-  void goalAdd(String title, String descrip, String frequency, int times, String term) {
+  void goalAdd(String title, String descrip) {
     String num = (MainScreenApp.getValidGoal.length+1).toString().padLeft(5,'0');
-    String termInt = term.replaceAll(RegExp(r'[^0-9]'),'');
-    GoalEntity goal=GoalEntity(id: 'G$num', title: title, descrip: descrip, times: times, frequency: frequency, term: int.parse(termInt), stime: DateTime.now(), etime: DateTime.now().add(Duration(days: int.parse(termInt))));
+    GoalEntity goal=GoalEntity(id: 'G$num', title: title, descrip: descrip, times: 7, frequency: '', term: 7, stime: DateTime.now(), etime: DateTime.now().add(Duration(days: 7)));
     print("Goal added: $goal");
     MainScreenApp.addGoal(goal);
   }
