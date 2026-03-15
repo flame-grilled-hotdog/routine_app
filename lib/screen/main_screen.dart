@@ -15,7 +15,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // MainScreenApp model=context.read<MainScreenApp>();
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 253, 207, 0),
       body: SafeArea(child: Column(
@@ -66,7 +65,7 @@ class Panel extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.9,
       child: Card(
         color: const Color.fromARGB(255, 202, 205, 228),
-        // elevation: 2,
+        elevation: 5,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 6),
           child:
@@ -123,20 +122,12 @@ class _GoalSetState extends State<GoalSet> {
                   Text('1日1回（7回）'),
                   const SizedBox(height: 8),
                   ElevatedButton(onPressed: () {
-                    goalAdd(title, descrip);
+                    MainScreenApp.addGoal(title, descrip);
                     Navigator.pop(context, true);}, child: const Text('追加'))
               ])
           ))
         );
       }
-
-  // TODO 目標追加処理が動かない
-  void goalAdd(String title, String descrip) {
-    String num = (MainScreenApp.getValidGoal.length+1).toString().padLeft(5,'0');
-    GoalEntity goal=GoalEntity(id: 'G$num', title: title, descrip: descrip, times: 7, frequency: '', term: 7, stime: DateTime.now(), etime: DateTime.now().add(Duration(days: 7)));
-    print("Goal added: $goal");
-    MainScreenApp.addGoal(goal);
-  }
 }
 
 
