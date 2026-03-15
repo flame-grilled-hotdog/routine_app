@@ -17,7 +17,7 @@ class _MainScreenState extends State<MainScreen> {
     List<GoalEntity> lst = MainScreenApp.getValidGoal;
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 253, 207, 0),
-      body: Center(child: Column(
+      body: SafeArea(child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
@@ -26,8 +26,8 @@ class _MainScreenState extends State<MainScreen> {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                for (int i=0; i<lst.length; i++) ...({Panel(num: i+1, child: Text(lst[i].title))}),
-                  Panel(num: 0, child: const Text('')),
+                for (int i=0; i<lst.length; i++) ...({Panel(num: i+1, goalTittle: Text(lst[i].title))}),
+                  Panel(num: 0, goalTittle: const Text('')),
               ]
             )
           ),
@@ -53,47 +53,41 @@ class _MainScreenState extends State<MainScreen> {
 /// 上層部
 class Panel extends StatelessWidget {
   final int num;
-  final Widget child;
+  final Widget goalTittle;
 
-  const Panel({super.key, required this.num, required this.child});
+  const Panel({super.key, required this.num, required this.goalTittle});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: const Color.fromARGB(255, 202, 205, 228),
-      // elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 200),
-        child:
-          Column(children: [
-            Text(num!=0?'目標$num':'目標設定', style: Theme.of(context).textTheme.titleMedium),
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Card(
+        color: const Color.fromARGB(255, 202, 205, 228),
+        // elevation: 2,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 6),
+          child:
+            Column(children: [
+              Text(num != 0 ? '目標$num' : '目標設定', style: Theme.of(context).textTheme.titleMedium),
 
-            if (num==0) ...({
-              const SizedBox(height: 12),
-              ElevatedButton(
-                onPressed: () {showModalBottomSheet(context: context, builder: (context) => const GoalSet());},
-                style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 204, 0)),
-                child: const Text('＋'),
-              )
-            })else...({
-              Center(child: child),
-              const SizedBox(height: 8),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              if (num==0) ...({
+                const SizedBox(height: 12),
                 ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 2, 168, 24),foregroundColor: Colors.white),
-                  child: const Text('達成！'),
-                ),
-                const SizedBox(width: 12),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 0, 43),foregroundColor: Colors.white),
-                  child: const Text('未達成'),
+                  onPressed: () {showModalBottomSheet(context: context, builder: (context) => const GoalSet());},
+                  style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 204, 0)),
+                  child: const Text('＋'),
                 )
-              ])
-            })
-        ])
-      )
+              })else...({
+                Center(child: goalTittle),
+                const SizedBox(height: 2),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 241, 157, 1),foregroundColor: Colors.white),
+                      child: const Text('達成 ！'),
+                    )
+              })
+          ])
+      ))
     );
   }
 }
@@ -149,6 +143,7 @@ class _GoalSetState extends State<GoalSet> {
     String num = (MainScreenApp.getValidGoal.length+1).toString().padLeft(5,'0');
     String termInt = term.replaceAll(RegExp(r'[^0-9]'),'');
     GoalEntity goal=GoalEntity(id: 'G$num', title: title, descrip: descrip, times: times, frequency: frequency, term: int.parse(termInt), stime: DateTime.now(), etime: DateTime.now().add(Duration(days: int.parse(termInt))));
+    print("Goal added: $goal");
     MainScreenApp.addGoal(goal);
   }
 }
