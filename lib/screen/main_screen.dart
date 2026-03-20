@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:routine_app/app/main_screen.dart';
 import 'package:routine_app/repository/goal_entity.dart';
@@ -13,6 +15,12 @@ class _MainScreenState extends State<MainScreen> {
 
   List<GoalEntity> lst = MainScreenApp.getValidGoal;
 
+  void renewGoalState() {
+    setState(() {
+      lst = MainScreenApp.getValidGoal;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,14 +29,13 @@ class _MainScreenState extends State<MainScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            // width: 600,
             height: 120,
             child: ListView(
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
               children: [
-                for (int i=0; i<lst.length; i++) (Panel(num: i+1, goalTittle: Text(lst[i].title))),
-                if (lst.length<3) Panel(num: 0, goalTittle: const Text(''), onGoalAdd: () { setState(() { lst = MainScreenApp.getValidGoal;});}) // 画面更新 
+                for (int i=0; i<lst.length; i++) (Panel(num: i+1, goalId: lst[i].id, onGoalAdd: renewGoalState)),
+                if (lst.length<3) Panel(num: 0, goalId: '', onGoalAdd: renewGoalState) // 画面更新 
               ]
             )
           ),
@@ -54,10 +61,10 @@ class _MainScreenState extends State<MainScreen> {
 /// 上層部
 class Panel extends StatelessWidget {
   final int num;
-  final Widget goalTittle;
+  final String goalId;
   final VoidCallback? onGoalAdd;
 
-  const Panel({super.key, required this.num, required this.goalTittle, this.onGoalAdd});
+  const Panel({super.key, required this.num, required this.goalId, this.onGoalAdd});
 
   @override
   Widget build(BuildContext context) {
@@ -83,10 +90,13 @@ class Panel extends StatelessWidget {
                   child: const Text('＋'),
                 )
               })else...({
-                Center(child: goalTittle),
+                Center(child: Text(MainScreenApp.getGoalById(goalId).title, style: Theme.of(context).textTheme.titleMedium)),
                 const SizedBox(height: 2),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        MainScreenApp.updateArcheive(goalId);
+                        onGoalAdd!();
+                      },
                       style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 241, 157, 1),foregroundColor: Colors.white),
                       child: const Text('達成 ！'),
                     )

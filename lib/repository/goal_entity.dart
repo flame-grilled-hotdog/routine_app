@@ -6,7 +6,7 @@ class GoalEntity {
   String frequency;
   int term;
   DateTime stime;
-  DateTime etime;
+  DateTime? etime;
 
   GoalEntity({
     required this.id,
