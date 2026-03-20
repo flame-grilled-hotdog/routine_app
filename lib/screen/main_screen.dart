@@ -9,6 +9,14 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
+Color bgColor = const Color.fromARGB(255, 20,20,20);
+Color mainColor = const Color.fromARGB(255, 230, 199, 28);
+Color subColor = const Color.fromARGB(255, 255, 170, 50);
+Color accentColor = const Color.fromARGB(255, 253, 190, 0);
+Color textColor = const Color.fromARGB(255, 63, 61, 61);
+Color textSubColor = const Color.fromARGB(255, 0, 4, 32);
+
+
 class _MainScreenState extends State<MainScreen> {
 
   List<GoalEntity> lst = MainScreenApp.getValidGoal;
@@ -22,7 +30,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 253, 207, 0),
+      backgroundColor: bgColor,
       body: SafeArea(child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -38,13 +46,12 @@ class _MainScreenState extends State<MainScreen> {
             )
           ),
           Expanded(
-            child: Container(
+            child: SizedBox(
               width: 400,
-              color: const Color.fromARGB(255, 92, 93, 100),
               child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                if(lst.isEmpty) const Text('目標がありません', style: TextStyle(color: Colors.white, fontSize: 20))
+                if(lst.isEmpty) Text('目標がありません。\r\nやるか、今か', style: Theme.of(context).textTheme.headlineMedium?.copyWith(color:  textColor))
                 else
-                  ...lst.map((e) => Text("${e.title}:${MainScreenApp.getProgressByGoalId(e.id).length}", style: Theme.of(context).textTheme.headlineMedium)),
+                  ...lst.map((e) => Text("${e.title}:${MainScreenApp.getProgressByGoalId(e.id).length}", style: Theme.of(context).textTheme.headlineMedium?.copyWith(color:  textColor))),
               ])
             )
           ),
@@ -68,18 +75,20 @@ class Panel extends StatelessWidget {
 
   const Panel({super.key, required this.num, required this.goalId, this.onGoalAdd});
 
+
   @override
   Widget build(BuildContext context) {
+    final TextStyle fontStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold,letterSpacing: 1);
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.9,
       child: Card(
-        color: const Color.fromARGB(255, 202, 205, 228),
+        color: mainColor,
         elevation: 5,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 6),
           child:
             Column(children: [
-              Text(num != 0 ? '目標$num' : '目標設定', style: Theme.of(context).textTheme.titleMedium),
+              Text(num != 0 ? '目標$num' : '目標設定', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: textColor)),
 
               if (num==0) ...({
                 const SizedBox(height: 12),
@@ -88,19 +97,19 @@ class Panel extends StatelessWidget {
                       await showModalBottomSheet(context: context, builder: (context) => const GoalSet());
                       onGoalAdd!();
                     },
-                  style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 204, 0)),
-                  child: const Text('＋'),
+                  style: ElevatedButton.styleFrom(backgroundColor: textColor, foregroundColor: mainColor),
+                  child: Text('＋', style:fontStyle),
                 )
               })else...({
-                Center(child: Text(MainScreenApp.getGoalById(goalId).title, style: Theme.of(context).textTheme.titleMedium)),
+                Center(child: Text(MainScreenApp.getGoalById(goalId).title, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: textSubColor))),
                 const SizedBox(height: 2),
                     ElevatedButton(
                       onPressed: () {
                         MainScreenApp.updateArcheive(goalId);
                         onGoalAdd!();
                       },
-                      style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 241, 157, 1),foregroundColor: Colors.white),
-                      child: const Text('達成 ！'),
+                  style: ElevatedButton.styleFrom(backgroundColor: textColor, foregroundColor: subColor),
+                      child: Text('達成 ！'),
                     )
               })
           ])
