@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:routine_app/app/main_screen.dart';
 import 'package:routine_app/repository/goal_entity.dart';
@@ -43,7 +41,11 @@ class _MainScreenState extends State<MainScreen> {
             child: Container(
               width: 400,
               color: const Color.fromARGB(255, 92, 93, 100),
-              child: const Center(child: Text('下層（リワード）')),
+              child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                if(lst.isEmpty) const Text('目標がありません', style: TextStyle(color: Colors.white, fontSize: 20))
+                else
+                  ...lst.map((e) => Text("${e.title}:${MainScreenApp.getProgressByGoalId(e.id).length}", style: Theme.of(context).textTheme.headlineMedium)),
+              ])
             )
           ),
           Container(
