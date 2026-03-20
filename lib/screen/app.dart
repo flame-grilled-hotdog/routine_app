@@ -36,13 +36,43 @@ class _MainScreenState extends State<MainScreen> {
     const GoalManageScreen()
   ];
 
+  bool isVisible = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
-      body: _pages[_currentIndex],
+      body: Stack(children: [_pages[_currentIndex],
+          if (isVisible) 
+            Positioned(bottom: 10, left: 0, right: 0,
+              child: Material(
+                elevation: 8,
+                borderRadius: BorderRadius.circular(16),
+                color: textColor,
+                child: SizedBox(
+                  height: 100,
+                  child: Stack(
+                    children: [
+                      const Center(child: Text('広告エリア', style: TextStyle(color: Colors.white))),
+                      Positioned(
+                        top: 4,
+                        right: 4,
+                        child: GestureDetector(
+                          onTap: () {setState(() {isVisible = false;});},
+                          child: Icon(Icons.close, size: 20, color: subColor),
+                        ),
+                      )
+                    ]
+                  ),
+                ),
+              )
+            )
+        ]),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: accentColor,
+        unselectedItemColor: Colors.grey,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
@@ -50,7 +80,7 @@ class _MainScreenState extends State<MainScreen> {
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'ホーム'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: '目標管理'),
+          BottomNavigationBarItem(icon: Icon(Icons.book), label: '目標管理'),
         ],
       ),
 

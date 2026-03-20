@@ -45,14 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ...lst.map((e) => Text("${e.title}:${HomeApp.getProgressByGoalId(e.id).length}", style: Theme.of(context).textTheme.headlineMedium?.copyWith(color:  textColor))),
             ])
           )
-        ),
-        Container(
-            width: 600,
-            height: 100,
-            color: const Color.fromARGB(255, 214, 215, 219),
-            child: const Center(child: Text('下層（広告）')),
-          )
-      ],
+        )
+      ]
     ));
   }
 }
