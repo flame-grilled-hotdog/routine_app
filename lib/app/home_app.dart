@@ -4,7 +4,7 @@ import 'package:routine_app/repository/goal_repository.dart';
 import 'package:routine_app/repository/goal_progress_entity.dart';
 import 'package:routine_app/repository/goal_progress_repository.dart';
 
-class MainScreenApp extends ChangeNotifier {
+class HomeApp extends ChangeNotifier {
 
   static List<GoalEntity> get getValidGoal => GoalRepository.selectValidGoals();
 

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:routine_app/app/main_screen.dart';
+import 'package:routine_app/app/home_app.dart';
 import 'package:routine_app/repository/goal_entity.dart';
 
 /// メイン画面
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 Color bgColor = const Color.fromARGB(255, 20,20,20);
@@ -17,13 +17,13 @@ Color textColor = const Color.fromARGB(255, 63, 61, 61);
 Color textSubColor = const Color.fromARGB(255, 0, 4, 32);
 
 
-class _MainScreenState extends State<MainScreen> {
+class _HomeScreenState extends State<HomeScreen> {
 
-  List<GoalEntity> lst = MainScreenApp.getValidGoal;
+  List<GoalEntity> lst = HomeApp.getValidGoal;
 
   void renewGoalState() {
     setState(() {
-      lst = MainScreenApp.getValidGoal;
+      lst = HomeApp.getValidGoal;
     });
   }
 
@@ -51,7 +51,7 @@ class _MainScreenState extends State<MainScreen> {
               child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 if(lst.isEmpty) Text('目標がありません。\r\nやるか、今か', style: Theme.of(context).textTheme.headlineMedium?.copyWith(color:  textColor))
                 else
-                  ...lst.map((e) => Text("${e.title}:${MainScreenApp.getProgressByGoalId(e.id).length}", style: Theme.of(context).textTheme.headlineMedium?.copyWith(color:  textColor))),
+                  ...lst.map((e) => Text("${e.title}:${HomeApp.getProgressByGoalId(e.id).length}", style: Theme.of(context).textTheme.headlineMedium?.copyWith(color:  textColor))),
               ])
             )
           ),
@@ -101,11 +101,11 @@ class Panel extends StatelessWidget {
                   child: Text('＋', style:fontStyle),
                 )
               })else...({
-                Center(child: Text(MainScreenApp.getGoalById(goalId).title, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: textSubColor))),
+                Center(child: Text(HomeApp.getGoalById(goalId).title, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: textSubColor))),
                 const SizedBox(height: 2),
                     ElevatedButton(
                       onPressed: () {
-                        MainScreenApp.updateArcheive(goalId);
+                        HomeApp.updateArcheive(goalId);
                         onGoalAdd!();
                       },
                   style: ElevatedButton.styleFrom(backgroundColor: textColor, foregroundColor: subColor),
@@ -143,7 +143,7 @@ class _GoalSetState extends State<GoalSet> {
                   Text('1日1回（7回）'),
                   const SizedBox(height: 8),
                   ElevatedButton(onPressed: () {
-                    MainScreenApp.addGoal(title, descrip);
+                    HomeApp.addGoal(title, descrip);
                     Navigator.pop(context, true);}, child: const Text('追加'))
               ])
           ))
