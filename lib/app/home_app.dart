@@ -1,33 +1,58 @@
-import 'package:flutter/material.dart';
 import 'package:routine_app/repository/goal_entity.dart';
+import 'package:routine_app/repository/goal_mt.dart';
+import 'package:routine_app/repository/goal_mt_mock.dart';
 import 'package:routine_app/repository/goal_repository.dart';
 import 'package:routine_app/repository/goal_progress_entity.dart';
 import 'package:routine_app/repository/goal_progress_repository.dart';
+import 'package:routine_app/repository/goal_progress_mock.dart';
+import 'package:routine_app/repository/goal_progress.dart';
+import '../screen/home_screen.dart';
 
-class HomeApp extends ChangeNotifier {
+class HomeApp{
+  int env;
+  List<GoalProgressEntity> lst=[];
+  HomeApp({required this.env});
 
-  static List<GoalEntity> get getValidGoal => GoalRepository.selectValidGoals();
+  late final GoalProgress repo = env == 0 ? GoalProgressRepository() : GoalProgressMock();
+  late final GoalMt goalRepo = env == 0 ? GoalRepository() : GoalMtMock();
 
-  static GoalEntity getGoalById(String id) => GoalRepository.getGoalById(id);
 
-  static List<GoalProgressEntity> getProgressByGoalId(String goalId) => GoalProgressRepository.getProgressByGoalId(goalId);
-
-  static void addGoal(String title, String descrip) {
-    String num = (GoalRepository.goals.length+1).toString().padLeft(5,'0');
-    GoalEntity goal=GoalEntity(id: 'G$num', title: title, descrip: descrip, times: 7, frequency: '', term: 7, stime: DateTime.now(), etime: null);
-    GoalRepository.insertGoal(goal);
+  Future<Home> getProgressByGoalId(String gid) async{
+    List<GoalProgressEntity> lst = await repo.getProgressByGoalId(gid);
+    Home a = Home(gid: gid, cnt: lst.length);
+    return a;
   }
 
- static void updateArcheive(String id) {
 
-    GoalEntity goal=GoalRepository.getGoalById(id);
-    List<GoalProgressEntity> lst = GoalProgressRepository.getProgressByGoalId(id);
-    if((goal.times - lst.length) == 1) {
-      /* 目標クローズ */
-      GoalRepository.updateFinishedGoal(id);
-    }
+  void addGoal(String title, String descrip) async{
+    List<GoalEntity> gmLst = await goalRepo.getAll();
+    String num = 'G${(gmLst.length + 1).toString().padLeft(5,'0')}';
+    GoalEntity goal = GoalEntity(gid: num, title: title, descrip: descrip, times: 1, frequency: '', term: 7, sdate: DateTime.now(), edate: null);
+    goalRepo.insertGoal(goal);
+  }
+
+ void updateArcheive(String id) async {
+
     /* 達成状況追加。 */
-    GoalProgressRepository.insertProgress(GoalProgressEntity(id: id, date: DateTime.now()));
+    repo.insertProgress(GoalProgressEntity(gid: id, udate: DateTime.now()));
 
+    GoalEntity goal = await goalRepo.getGoalById(id);
+    List<GoalProgressEntity> prglst = await repo.getProgressByGoalId(id);
+    int a = prglst.length;
+    int endTimes = (goal.term/goal.times).round();
+    if((endTimes - a) == 1) {
+      /* 目標クローズ */
+      goalRepo.updateFinishedGoal(id);
+    }
+  }
+
+  Future<List<GoalEntity>> getValidGoal() async {
+    List<GoalEntity> a = await goalRepo.getValidGoals();
+    return await goalRepo.getValidGoals();
+  } 
+
+  Future<String> getGoalById(String id) async {
+    GoalEntity gmLst = await goalRepo.getGoalById(id);
+    return gmLst.title;
   }
 }

@@ -1,14 +1,23 @@
 import 'goal_progress_entity.dart';
+import 'goal_progress.dart';
+import 'db_helper.dart';
 
-class GoalProgressRepository {
+class GoalProgressRepository implements GoalProgress {
 
-  static List<GoalProgressEntity> progressList = <GoalProgressEntity>[];
-
-  static void insertProgress(GoalProgressEntity progress) {
-    progressList.add(progress);
+  @override
+  void insertProgress(GoalProgressEntity enitty) async {
+    final db = await DBHelper.instance.database;
+    await db.insert('goal_progress', enitty.toMap());
   }
 
-  static List<GoalProgressEntity> getProgressByGoalId(String goalId) {
-    return progressList.where((progress) => progress.id == goalId).toList();
+  @override
+  Future<List<GoalProgressEntity>> getProgressByGoalId(String gid) async {
+    final db = await DBHelper.instance.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'goal_progress',
+      where: 'gid = ?',
+      whereArgs: [gid],
+    );
+    return maps.map((map) => GoalProgressEntity.fromMap(map)).toList();
   }
 }

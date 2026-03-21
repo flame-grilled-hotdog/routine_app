@@ -1,25 +1,52 @@
+import 'package:routine_app/repository/goal_mt.dart';
 import 'package:routine_app/repository/goal_entity.dart';
+import 'package:routine_app/repository/db_helper.dart';
 
-class GoalRepository {
+class GoalRepository implements GoalMt {
 
-  static List<GoalEntity> goals = <GoalEntity>[
-    // GoalEntity(id: 'G00001',title: '7時に起きるるるるるるるるるる',descrip: '',times: 1, frequency: 'd',term: 7,stime: DateTime(2020, 12, 20),etime: DateTime(2020, 12, 27))
-    ];
+  @override
+  Future<List<GoalEntity>> getAll() async{
+    final db = await DBHelper.instance.database;
+    final List<Map<String, dynamic>> maps = await db.query('goal_mt');
+    return maps.map((map) =>GoalEntity.fromMap(map)).toList();
+    
+  }
 
-  static List<GoalEntity> selectValidGoals(){
+  @override
+  Future<List<GoalEntity>> getValidGoals() async{
+    final db = await DBHelper.instance.database;
     final now = DateTime.now();
-    return goals.where((goal) => goal.stime.isBefore(now) && goal.etime == null).toList();
+    final List<Map<String, dynamic>> maps = await db.query('goal_mt', where: 'sdate <= ? AND (edate IS NULL OR edate > ?)', whereArgs: [now.toIso8601String(), now.toIso8601String()]);
+    return maps.map((map) =>GoalEntity.fromMap(map)).toList();
+
   }
 
-  static GoalEntity getGoalById(String id) {
-    return goals.firstWhere((goal) => goal.id == id);
+  @override
+  Future<GoalEntity> getGoalById(String id) async {
+    final db = await DBHelper.instance.database;
+    final List<Map<String, Object?>> maps = await db.query('goal_mt', where: 'gid = ?', whereArgs: [id]);
+    List<GoalEntity> lst = maps.map((map)=>GoalEntity.fromMap(map)).toList();
+    return lst[0];
+    
   }
 
-  static void insertGoal(GoalEntity goal){
-    goals.add(goal);
+  @override
+  void insertGoal(GoalEntity goal){
+    DBHelper.instance.database.then((db) {
+      db.insert('goal_mt',goal.toMap());
+    });
   }
 
-  static void updateFinishedGoal(String id) {
-    goals.firstWhere((goal) => goal.id == id).etime = DateTime.now();
+  @override
+  void updateFinishedGoal(String gid) {
+    DBHelper.instance.database.then((db) {
+      db.update(
+        'goal_mt',
+        {'edate': DateTime.now().toIso8601String()},
+        where: 'gid = ?',
+        whereArgs: [gid],
+      );
+    });
   }
+
 }
