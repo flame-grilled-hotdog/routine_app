@@ -31,14 +31,14 @@ class GoalMtRepository implements GoalMt {
   }
 
   @override
-  void insertGoal(GoalEntity goal){
+  Future<void> insertGoal(GoalEntity goal) async {
     DBHelper.instance.database.then((db) {
       db.insert('goal_mt',goal.toMap());
     });
   }
 
   @override
-  void updateFinishedGoal(String gid) {
+  Future<void> updateFinishedGoal(String gid) async {
     DBHelper.instance.database.then((db) {
       db.update(
         'goal_mt',

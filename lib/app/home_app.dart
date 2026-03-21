@@ -28,7 +28,7 @@ class HomeApp{
     List<GoalEntity> gmLst = await goalRepo.getAll();
     String num = 'G${(gmLst.length + 1).toString().padLeft(5,'0')}';
     GoalEntity goal = GoalEntity(gid: num, title: title, descrip: descrip, times: 1, frequency: '', term: 7, sdate: DateTime.now(), edate: null);
-    goalRepo.insertGoal(goal);
+    await goalRepo.insertGoal(goal);
   }
 
  void updateArcheive(String id) async {
@@ -42,7 +42,7 @@ class HomeApp{
     int endTimes = (goal.term/goal.times).round();
     if((endTimes - a) == 1) {
       /* 目標クローズ */
-      goalRepo.updateFinishedGoal(id);
+      await goalRepo.updateFinishedGoal(id);
     }
   }
 

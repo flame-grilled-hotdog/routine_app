@@ -6,7 +6,7 @@ class GoalProgressMock implements GoalProgress {
   static List<GoalProgressEntity> progressList = <GoalProgressEntity>[];
 
   @override
-  void insertProgress(GoalProgressEntity progress) {
+  Future<void> insertProgress(GoalProgressEntity progress) async {
     progressList.add(progress);
   }
 

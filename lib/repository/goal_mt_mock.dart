@@ -24,12 +24,12 @@ class GoalMtMock implements GoalMt {
   }
 
   @override
-  void insertGoal(GoalEntity goal){
+  Future<void> insertGoal(GoalEntity goal) async {
     goals.add(goal);
   }
 
   @override
-  void updateFinishedGoal(String id) {
+  Future<void> updateFinishedGoal(String id) async {
     goals.firstWhere((goal) => goal.gid == id).edate = DateTime.now();
   }
 }
