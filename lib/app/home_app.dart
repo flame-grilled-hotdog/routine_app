@@ -19,7 +19,7 @@ class HomeApp{
 
   Future<Home> getProgressByGoalId(String gid) async{
     List<GoalProgressEntity> lst = await repo.getProgressByGoalId(gid);
-    print('達成状況：　'+gid+'　：　'+lst.length.toString());
+    print('達成状況：　$gid　：　${lst.length}');
     Home a = Home(gid: gid, cnt: lst.length);
     return a;
   }
@@ -30,7 +30,7 @@ class HomeApp{
     String num = 'G${(gmLst.length + 1).toString().padLeft(5,'0')}';
     GoalEntity goal = GoalEntity(gid: num, title: title, descrip: descrip, times: 1, frequency: '', term: 7, sdate: DateTime.now(), edate: null);
     await goalRepo.insertGoal(goal);
-    print('追加目標：　'+num);
+    print('追加目標：　$num');
   }
 
  Future<void> updateArcheive(String id) async {
@@ -50,7 +50,7 @@ class HomeApp{
 
   Future<List<GoalEntity>> getValidGoal() async {
     List<GoalEntity> a = await goalRepo.getValidGoals();
-    print('有効件数：　'+a.length.toString());
+    print('有効件数：　${a.length}');
     return a;
   } 
 
