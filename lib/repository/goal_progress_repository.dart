@@ -5,7 +5,7 @@ import 'db_helper.dart';
 class GoalProgressRepository implements GoalProgress {
 
   @override
-  void insertProgress(GoalProgressEntity enitty) async {
+  Future<void> insertProgress(GoalProgressEntity enitty) async {
     final db = await DBHelper.instance.database;
     await db.insert('goal_progress', enitty.toMap());
   }
