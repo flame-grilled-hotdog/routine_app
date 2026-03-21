@@ -1,8 +1,8 @@
 import 'package:routine_app/repository/goal_mt.dart';
-import 'package:routine_app/repository/goal_entity.dart';
+import 'package:routine_app/repository/goal_mt_entity.dart';
 import 'package:routine_app/repository/db_helper.dart';
 
-class GoalRepository implements GoalMt {
+class GoalMtRepository implements GoalMt {
 
   @override
   Future<List<GoalEntity>> getAll() async{

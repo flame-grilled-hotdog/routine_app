@@ -1,7 +1,7 @@
-import 'package:routine_app/repository/goal_entity.dart';
+import 'package:routine_app/repository/goal_mt_entity.dart';
 import 'package:routine_app/repository/goal_mt.dart';
 import 'package:routine_app/repository/goal_mt_mock.dart';
-import 'package:routine_app/repository/goal_repository.dart';
+import 'package:routine_app/repository/goal_mt_repository.dart';
 import 'package:routine_app/repository/goal_progress_entity.dart';
 import 'package:routine_app/repository/goal_progress_repository.dart';
 import 'package:routine_app/repository/goal_progress_mock.dart';
@@ -14,7 +14,7 @@ class HomeApp{
   HomeApp({required this.env});
 
   late final GoalProgress repo = env == 0 ? GoalProgressRepository() : GoalProgressMock();
-  late final GoalMt goalRepo = env == 0 ? GoalRepository() : GoalMtMock();
+  late final GoalMt goalRepo = env == 0 ? GoalMtRepository() : GoalMtMock();
 
 
   Future<Home> getProgressByGoalId(String gid) async{
@@ -47,7 +47,6 @@ class HomeApp{
   }
 
   Future<List<GoalEntity>> getValidGoal() async {
-    List<GoalEntity> a = await goalRepo.getValidGoals();
     return await goalRepo.getValidGoals();
   } 
 

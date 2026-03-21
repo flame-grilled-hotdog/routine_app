@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:routine_app/app/home_app.dart';
-import 'package:routine_app/repository/goal_entity.dart';
+import 'package:routine_app/repository/goal_mt_entity.dart';
 import 'package:routine_app/screen/design.dart';
 
 /// メイン画面

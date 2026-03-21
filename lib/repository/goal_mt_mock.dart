@@ -1,4 +1,4 @@
-import 'package:routine_app/repository/goal_entity.dart';
+import 'package:routine_app/repository/goal_mt_entity.dart';
 import 'package:routine_app/repository/goal_mt.dart';
 
 class GoalMtMock implements GoalMt {
