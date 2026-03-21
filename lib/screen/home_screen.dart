@@ -110,9 +110,9 @@ class Panel extends StatelessWidget {
                 const SizedBox(height: 12),
                 ElevatedButton(
                   onPressed: () async{
-                      await showModalBottomSheet(context: context, builder: (context) => const GoalSet());
-                      onGoalAdd();
-                    },
+                    await showModalBottomSheet(context: context, builder: (context) => const GoalSet());
+                    onGoalAdd();
+                  },
                   style: ElevatedButton.styleFrom(shape: CircleBorder(), backgroundColor: textColor, foregroundColor: mainColor),
                   child: Text('＋', style:fontStyle),
                 )
@@ -120,8 +120,8 @@ class Panel extends StatelessWidget {
                 Center(child: Text(title!, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: textSubColor))),
                 const SizedBox(height: 1),
                 ElevatedButton(
-                  onPressed: () {
-                    homeApp.updateArcheive(goalId!);
+                  onPressed: () async {
+                    await homeApp.updateArcheive(goalId!);
                     onGoalAdd();
                   },
                   style: ElevatedButton.styleFrom(minimumSize: Size(80, 30), backgroundColor: textColor, foregroundColor: subColor),
@@ -158,8 +158,8 @@ class _GoalSetState extends State<GoalSet> {
                   TextFormField(decoration: const InputDecoration(labelText: '説明'), maxLines: 1, onChanged: (value) {descrip = value;}),
                   Text('1日1回（7回）'),
                   const SizedBox(height: 8),
-                  ElevatedButton(onPressed: () {
-                    homeApp.addGoal(title, descrip);
+                  ElevatedButton(onPressed: () async {
+                    await homeApp.addGoal(title, descrip);
                     Navigator.pop(context, true);}, child: const Text('追加'))
               ])
           ))

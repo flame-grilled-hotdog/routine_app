@@ -19,19 +19,21 @@ class HomeApp{
 
   Future<Home> getProgressByGoalId(String gid) async{
     List<GoalProgressEntity> lst = await repo.getProgressByGoalId(gid);
+    print('達成状況：　'+gid+'　：　'+lst.length.toString());
     Home a = Home(gid: gid, cnt: lst.length);
     return a;
   }
 
 
-  void addGoal(String title, String descrip) async{
+  Future<void> addGoal(String title, String descrip) async{
     List<GoalEntity> gmLst = await goalRepo.getAll();
     String num = 'G${(gmLst.length + 1).toString().padLeft(5,'0')}';
     GoalEntity goal = GoalEntity(gid: num, title: title, descrip: descrip, times: 1, frequency: '', term: 7, sdate: DateTime.now(), edate: null);
     await goalRepo.insertGoal(goal);
+    print('追加目標：　'+num);
   }
 
- void updateArcheive(String id) async {
+ Future<void> updateArcheive(String id) async {
 
     /* 達成状況追加。 */
     repo.insertProgress(GoalProgressEntity(gid: id, udate: DateTime.now()));
@@ -47,7 +49,9 @@ class HomeApp{
   }
 
   Future<List<GoalEntity>> getValidGoal() async {
-    return await goalRepo.getValidGoals();
+    List<GoalEntity> a = await goalRepo.getValidGoals();
+    print('有効件数：　'+a.length.toString());
+    return a;
   } 
 
   Future<String> getGoalById(String id) async {
