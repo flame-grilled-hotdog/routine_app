@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:routine_app/app/home_app.dart';
 import 'package:routine_app/repository/goal_mt_entity.dart';
 import 'package:routine_app/screen/design.dart';
+import 'main_charac.dart';
 
 /// メイン画面
 
@@ -64,17 +65,19 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ),
         Expanded(
-          child: SizedBox(
-            width: 400,
-            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               if(homeLst.isEmpty) Text('目標がありません。\r\nやるか、今か', style: Theme.of(context).textTheme.headlineMedium?.copyWith(color:  textColor))
               else
+              Column(children: [
                 ...homeLst.map((e) => 
-                  Text("${e.title}:${e.cnt}", style: Theme.of(context).textTheme.headlineMedium?.copyWith(color:  textColor))
-              )
+                  Text("${e.title}:${e.cnt}", style: Theme.of(context).textTheme.headlineMedium?.copyWith(color:  textColor))),
+                SizedBox(height: 500, width: MediaQuery.of(context).size.width,
+                  child: const TapRiveSample(),
+                )
+              ])
             ])
           )
-        )
+        
       ]
     ));
   }
