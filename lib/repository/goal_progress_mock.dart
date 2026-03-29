@@ -14,4 +14,9 @@ class GoalProgressMock implements GoalProgress {
   Future<List<GoalProgressEntity>> getProgressByGoalId(String gid) async {
     return progressList.where((progress) => progress.gid == gid).toList();
   }
+
+  @override
+  Future<void> deleteProgressByGoalId(String gid) async {
+    progressList.removeWhere((progress) => progress.gid == gid);
+  }
 }

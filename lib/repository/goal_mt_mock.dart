@@ -32,4 +32,9 @@ class GoalMtMock implements GoalMt {
   Future<void> updateFinishedGoal(String id) async {
     goals.firstWhere((goal) => goal.gid == id).edate = DateTime.now();
   }
+
+  @override
+  Future<void> deleteGoal(String id) async {
+    goals.removeWhere((goal) => goal.gid == id);
+  }
 }

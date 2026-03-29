@@ -49,4 +49,10 @@ class GoalMtRepository implements GoalMt {
     });
   }
 
+  @override
+  Future<void> deleteGoal(String id) async {
+    DBHelper.instance.database.then((db) {
+      db.delete('goal_mt', where: 'gid = ?', whereArgs: [id]);
+    });
+  }
 }

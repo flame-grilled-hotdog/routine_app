@@ -20,4 +20,14 @@ class GoalProgressRepository implements GoalProgress {
     );
     return maps.map((map) => GoalProgressEntity.fromMap(map)).toList();
   }
+
+  @override
+  Future<void> deleteProgressByGoalId(String gid) async {
+    final db = await DBHelper.instance.database;
+    await db.delete(
+      'goal_progress',
+      where: 'gid = ?',
+      whereArgs: [gid],
+    );
+  }
 }

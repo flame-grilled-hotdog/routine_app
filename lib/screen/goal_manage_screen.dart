@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:routine_app/screen/design.dart';
 import 'package:routine_app/repository/goal_mt_entity.dart';
+import 'package:routine_app/app/goal_manage_app.dart';
 
-
+final goalManageApp = GoalManageApp(env: 1);
 class GoalManageScreen extends StatefulWidget {
   const GoalManageScreen({super.key});
   @override
@@ -14,17 +15,16 @@ class _GoalManageScreenState extends State<GoalManageScreen> {
   List<GoalManage> goalManageList = [];
 
   void renewGoalState() async {
-    //TODO DBから目標のリストを取ってきて、setStateする。
-    goalManageList = [
-      GoalManage(entity: GoalMtEntity(gid: 'G00001', title: '筋トレ', descrip: 'xxxxxxxxxxxxxxxxxxxxx。', times: 1, frequency: '', term: 7, sdate: DateTime.now())),
-      GoalManage(entity: GoalMtEntity(gid: 'G00002', title: '国語10単語暗記', descrip: 'yyyyyyyyyyyyyyyyyyyyyyyyyy。', times: 1, frequency: '', term: 7, sdate: DateTime(2026, 3, 20), edate: DateTime(2026, 3, 29)),cnt: 7),
-      GoalManage(entity: GoalMtEntity(gid: 'G00003', title: '寝る時間確保', descrip: 'xxxxxxxxxxxxxxxxxxxxx。', times: 1, frequency: '', term: 7, sdate: DateTime.now()),cnt: 3),
-     ];
+    List<GoalManage> a = await goalManageApp.getAllGoals();
+    setState(() {
+      goalManageList = a;
+    });
 
   }
 
   void deleteGoal(String gid) async {
-    //TODO DBから目標を削除して、renewGoalStateする。
+    await goalManageApp.deleteGoal(gid);
+    renewGoalState();
   }
 
   @override
