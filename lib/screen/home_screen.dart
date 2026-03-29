@@ -6,7 +6,7 @@ import 'main_charac.dart';
 
 /// メイン画面
 
-HomeApp homeApp = HomeApp(env: 0);
+HomeApp homeApp = HomeApp(env: 1);
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
   @override
@@ -22,14 +22,14 @@ class Home{
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  List<GoalEntity> gmLst=[];
+  List<GoalMtEntity> gmLst=[];
   List<Home> homeLst = [];
 
   void renewGoalState() async {
-    final List<GoalEntity> data = await homeApp.getValidGoal();
+    final List<GoalMtEntity> data = await homeApp.getValidGoal();
 
     List<Home> a = [];
-    for (GoalEntity d in data){
+    for (GoalMtEntity d in data){
       Home b = await homeApp.getProgressByGoalId(d.gid);
       b.title=d.title;
       a.add(b);

@@ -1,5 +1,5 @@
 
-class GoalEntity {
+class GoalMtEntity {
   String gid;
   String title;
   String descrip;
@@ -9,7 +9,7 @@ class GoalEntity {
   DateTime sdate;
   DateTime? edate;
 
-  GoalEntity({
+  GoalMtEntity({
     required this.gid,
     required this.title,
     required this.descrip,
@@ -32,8 +32,8 @@ class GoalEntity {
     };
   }
 
-  factory GoalEntity.fromMap(Map<String, dynamic> map) {
-    return GoalEntity(
+  factory GoalMtEntity.fromMap(Map<String, dynamic> map) {
+    return GoalMtEntity(
       gid: map['gid'],
       title: map['title'],
       descrip: map['descrip'],

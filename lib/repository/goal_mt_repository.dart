@@ -5,33 +5,33 @@ import 'package:routine_app/repository/db_helper.dart';
 class GoalMtRepository implements GoalMt {
 
   @override
-  Future<List<GoalEntity>> getAll() async{
+  Future<List<GoalMtEntity>> getAll() async{
     final db = await DBHelper.instance.database;
     final List<Map<String, dynamic>> maps = await db.query('goal_mt');
-    return maps.map((map) =>GoalEntity.fromMap(map)).toList();
+    return maps.map((map) =>GoalMtEntity.fromMap(map)).toList();
     
   }
 
   @override
-  Future<List<GoalEntity>> getValidGoals() async{
+  Future<List<GoalMtEntity>> getValidGoals() async{
     final db = await DBHelper.instance.database;
     final now = DateTime.now();
     final List<Map<String, dynamic>> maps = await db.query('goal_mt', where: 'sdate <= ? AND (edate IS NULL OR edate > ?)', whereArgs: [now.toIso8601String(), now.toIso8601String()]);
-    return maps.map((map) =>GoalEntity.fromMap(map)).toList();
+    return maps.map((map) =>GoalMtEntity.fromMap(map)).toList();
 
   }
 
   @override
-  Future<GoalEntity> getGoalById(String id) async {
+  Future<GoalMtEntity> getGoalById(String id) async {
     final db = await DBHelper.instance.database;
     final List<Map<String, Object?>> maps = await db.query('goal_mt', where: 'gid = ?', whereArgs: [id]);
-    List<GoalEntity> lst = maps.map((map)=>GoalEntity.fromMap(map)).toList();
+    List<GoalMtEntity> lst = maps.map((map)=>GoalMtEntity.fromMap(map)).toList();
     return lst[0];
     
   }
 
   @override
-  Future<void> insertGoal(GoalEntity goal) async {
+  Future<void> insertGoal(GoalMtEntity goal) async {
     DBHelper.instance.database.then((db) {
       db.insert('goal_mt',goal.toMap());
     });
