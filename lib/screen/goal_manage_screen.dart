@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:routine_app/screen/design.dart';
 import 'package:routine_app/repository/goal_mt_entity.dart';
 import 'package:routine_app/app/goal_manage_app.dart';
+import 'package:intl/intl.dart';
 
 final goalManageApp = GoalManageApp(env: 1);
 class GoalManageScreen extends StatefulWidget {
@@ -87,17 +88,17 @@ Widget goalListItem({required String title, required String description, require
       SizedBox(height: 8),
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
-        children:[Icon(Icons.access_time, size: 16, color: Colors.blue), Text('開始日時：${sdate.toString().split(' ')[0]}', style: TextStyle(fontSize: 20, color: textColor))]
+        children:[Icon(Icons.access_time, size: 16, color: Colors.blue), Text('開始日時：${DateFormat('yyyy/MM/dd').format(sdate)}', style: TextStyle(fontSize: 20, color: textColor))]
       ),
       SizedBox(height: 8),
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
-        children:[Icon(Icons.access_time, size: 16, color: Colors.blue), Text('終了予定日時：${pdate.toString().split(' ')[0]}', style: TextStyle(fontSize: 20, color: textColor))]
+        children:[Icon(Icons.access_time, size: 16, color: Colors.blue), Text('終了予定日時：${DateFormat('yyyy/MM/dd').format(pdate)}', style: TextStyle(fontSize: 20, color: textColor))]
       ),
       SizedBox(height: 8),
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
-        children:[Icon(Icons.access_time, size: 16, color: Colors.blue), Text('終了日時：${edate?.toString().split(' ')[0] ?? ""}', style: TextStyle(fontSize: 20, color: textColor))]
+        children:[Icon(Icons.access_time, size: 16, color: Colors.blue), edate==null?Text('終了日時：----/--/--', style: TextStyle(fontSize: 20, color: textColor)):Text('終了日時：${DateFormat('yyyy/MM/dd').format(edate)}', style: TextStyle(fontSize: 20, color: textColor)) ]
       ),
       SizedBox(height: 8),
       Row(
