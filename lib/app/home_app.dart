@@ -6,11 +6,10 @@ import 'package:routine_app/repository/goal_progress_entity.dart';
 import 'package:routine_app/repository/goal_progress_repository.dart';
 import 'package:routine_app/repository/goal_progress_mock.dart';
 import 'package:routine_app/repository/goal_progress.dart';
-import '../screen/home_screen.dart';
+import 'package:routine_app/screen/home_screen.dart';
 
 class HomeApp{
   int env;
-  List<GoalProgressEntity> lst=[];
   HomeApp({required this.env});
 
   late final GoalProgress repo = env == 0 ? GoalProgressRepository() : GoalProgressMock();
