@@ -6,7 +6,7 @@ import 'dart:io';
 
 void main() {
   if(kIsWeb){
-    ;
+    // Web環境での初期化は不要
   }else if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;

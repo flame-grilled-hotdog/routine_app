@@ -4,14 +4,15 @@ import 'package:routine_app/repository/goal_mt_entity.dart';
 import 'package:routine_app/app/goal_manage_app.dart';
 import 'package:intl/intl.dart';
 
-final goalManageApp = GoalManageApp(env: 1);
 class GoalManageScreen extends StatefulWidget {
-  const GoalManageScreen({super.key});
+  final int env;
+  const GoalManageScreen({super.key, required this.env});
   @override
   State<GoalManageScreen> createState() => _GoalManageScreenState();
 }
 
 class _GoalManageScreenState extends State<GoalManageScreen> {
+  GoalManageApp get goalManageApp => GoalManageApp(env: widget.env);
 
   List<GoalManage> goalManageList = [];
 

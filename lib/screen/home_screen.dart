@@ -5,23 +5,15 @@ import 'package:routine_app/screen/design.dart';
 import 'main_charac.dart';
 
 /// メイン画面
-
-HomeApp homeApp = HomeApp(env: 1);
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.env});
+  final int env;
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class Home{
-  String gid;
-  String? title;
-  int cnt;
-  Home({required this.gid, required this.cnt, this.title});  
-}
-
 class _HomeScreenState extends State<HomeScreen> {
-
+  HomeApp get homeApp => HomeApp(env: widget.env);
   List<GoalMtEntity> gmLst=[];
   List<Home> homeLst = [];
 
@@ -81,19 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ]
     ));
   }
-}
 
-/// 上層部
-class Panel extends StatelessWidget {
-  final int num;
-  final String? goalId;
-  final String? title;
-  final VoidCallback onGoalAdd;
-
-  const Panel({super.key, required this.num, this.goalId, this.title, required this.onGoalAdd});
-
-  @override
-  Widget build(BuildContext context) {
+  /// 上層部
+  Widget Panel({required int num, String? goalId, String? title, required VoidCallback onGoalAdd}){
     final TextStyle fontStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold,letterSpacing: 1);
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.9,
@@ -110,7 +92,7 @@ class Panel extends StatelessWidget {
                 const SizedBox(height: 12),
                 ElevatedButton(
                   onPressed: () async{
-                    await showModalBottomSheet(context: context, builder: (context) => const GoalSet());
+                    await showModalBottomSheet(context: context, builder: (context) => _GoalSetState());
                     onGoalAdd();
                   },
                   style: ElevatedButton.styleFrom(shape: CircleBorder(), backgroundColor: textColor, foregroundColor: mainColor),
@@ -132,40 +114,35 @@ class Panel extends StatelessWidget {
       ))
     );
   }
+
+  Widget _GoalSetState(){
+
+    String title = '';
+    String descrip = '';
+    return Container(
+      color: Colors.white,
+      child: 
+        Form(child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+          child: Column(children: [
+              TextFormField(decoration: const InputDecoration(labelText: '目標タイトル'), maxLines: 1, onChanged: (value) {title = value;}),
+              TextFormField(decoration: const InputDecoration(labelText: '説明'), maxLines: 1, onChanged: (value) {descrip = value;}),
+              Text('1日1回（7回）'),
+              const SizedBox(height: 8),
+              ElevatedButton(onPressed: () async {
+                await homeApp.addGoal(title, descrip);
+                Navigator.pop(context, true);}, child: const Text('追加'))
+          ])
+      ))
+    );
+  }
 }
-
-class GoalSet extends StatefulWidget {
-  const GoalSet({super.key});
-
-  @override
-  State<GoalSet> createState() => _GoalSetState();
-}
-
-class _GoalSetState extends State<GoalSet> {
-
-  String title = '';
-  String descrip = '';
-
-  @override
-  Widget build(BuildContext context) {
-        return Container(
-          color: Colors.white,
-          child: 
-            Form(child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-              child: Column(children: [
-                  TextFormField(decoration: const InputDecoration(labelText: '目標タイトル'), maxLines: 1, onChanged: (value) {title = value;}),
-                  TextFormField(decoration: const InputDecoration(labelText: '説明'), maxLines: 1, onChanged: (value) {descrip = value;}),
-                  Text('1日1回（7回）'),
-                  const SizedBox(height: 8),
-                  ElevatedButton(onPressed: () async {
-                    await homeApp.addGoal(title, descrip);
-                    Navigator.pop(context, true);}, child: const Text('追加'))
-              ])
-          ))
-        );
-      }
-}
-
 
 /// 下層部
+
+class Home{
+  String gid;
+  String? title;
+  int cnt;
+  Home({required this.gid, required this.cnt, this.title});  
+}

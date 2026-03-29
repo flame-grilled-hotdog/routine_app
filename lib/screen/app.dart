@@ -30,10 +30,10 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
 
   int _currentIndex = 0;
-
-  final List<Widget> _pages = [
-    const HomeScreen(),
-    const GoalManageScreen()
+  static const int num = 0;
+  List<Widget> get _pages => [
+    const HomeScreen(env: num),
+    const GoalManageScreen(env: num)
   ];
 
   bool isVisible = true;
