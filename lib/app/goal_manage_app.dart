@@ -34,4 +34,10 @@ class GoalManageApp {
     await goalRepo.deleteGoal(id);
     print('削除目標：　$id');
   }
+
+  Future<void> reOpenGoal(String id) async {
+    GoalMtEntity oldGoal = await goalRepo.getGoalById(id);
+    await goalRepo.updateReOpenGoal(id, oldGoal.term * 2, oldGoal.reOpen + 1);
+    print('再チャレンジ目標：　$id');
+  }
 }

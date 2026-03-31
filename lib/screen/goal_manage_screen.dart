@@ -29,6 +29,11 @@ class _GoalManageScreenState extends State<GoalManageScreen> {
     renewGoalState();
   }
 
+  void reOpenGoal(String gid) async {
+    await goalManageApp.reOpenGoal(gid);
+    renewGoalState();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -63,11 +68,12 @@ class _GoalManageScreenState extends State<GoalManageScreen> {
                       title: goalManageList[index].entity.title,
                       description: goalManageList[index].entity.descrip,
                       sdate: goalManageList[index].entity.sdate,
-                      pdate: goalManageList[index].entity.sdate.add(Duration(days:7)),
+                      pdate: goalManageList[index].entity.sdate.add(Duration(days: goalManageList[index].entity.term)),
                       edate: goalManageList[index].entity.edate,
                       cnt: goalManageList[index].cnt,
                       term: (goalManageList[index].entity.times * goalManageList[index].entity.term),
-                      onDelete: () => deleteGoal(goalManageList[index].entity.gid)
+                      onDelete: () => deleteGoal(goalManageList[index].entity.gid),
+                      onReOpen: () => reOpenGoal(goalManageList[index].entity.gid)
                     )
                 )]
               )
@@ -79,7 +85,7 @@ class _GoalManageScreenState extends State<GoalManageScreen> {
   }
 }
 
-Widget goalListItem({required String title, required String description, required DateTime sdate, required DateTime pdate, DateTime? edate, required int cnt, required int term, required VoidCallback onDelete}){
+Widget goalListItem({required String title, required String description, required DateTime sdate, required DateTime pdate, DateTime? edate, required int cnt, required int term, required VoidCallback onDelete, required VoidCallback onReOpen}){
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -102,15 +108,19 @@ Widget goalListItem({required String title, required String description, require
         children:[Icon(Icons.access_time, size: 16, color: Colors.blue), edate==null?Text('終了日時：----/--/--', style: TextStyle(fontSize: 20, color: textColor)):Text('終了日時：${DateFormat('yyyy/MM/dd').format(edate)}', style: TextStyle(fontSize: 20, color: textColor)) ]
       ),
       SizedBox(height: 8),
+      Text('$cnt/$term', style: TextStyle(fontSize: 20, color: textColor)),
+      SizedBox(height: 8),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children:[
-          //TODO スライドで消すUXにしたい。
-          ElevatedButton(onPressed: onDelete,
+            //TODO スライドで消すUXにしたい。
+            ElevatedButton(onPressed: onDelete,
+              style: ElevatedButton.styleFrom(minimumSize: Size(80, 30), backgroundColor: mainColor, foregroundColor: textSubColor),
+              child: Text('削除')),
+          if(edate != null) ElevatedButton(onPressed: onReOpen,
             style: ElevatedButton.styleFrom(minimumSize: Size(80, 30), backgroundColor: mainColor, foregroundColor: textSubColor),
-            child: Text('削除')),
-          Text('$cnt/$term', style: TextStyle(fontSize: 20, color: textColor))
-        ]
+            child: Text('再チャレンジ'))
+         ]
       ),
     ],
   );
