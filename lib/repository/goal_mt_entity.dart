@@ -6,6 +6,7 @@ class GoalMtEntity {
   int times;
   String frequency;
   int term;
+  int reOpen;
   DateTime sdate;
   DateTime? edate;
 
@@ -16,6 +17,7 @@ class GoalMtEntity {
     required this.times,
     required this.frequency,
     required this.term,
+    this.reOpen = 0,
     required this.sdate,
     this.edate,
   });
@@ -40,6 +42,7 @@ class GoalMtEntity {
       times: map['times'],
       frequency: map['frequency'],
       term: map['term'],
+      reOpen: map['reOpen'] ?? 0,
       sdate: DateTime.parse(map['sdate']),
       edate: map['edate'] != null ? DateTime.parse(map['edate']) : null,
     );

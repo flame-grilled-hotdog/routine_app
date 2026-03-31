@@ -6,5 +6,6 @@ abstract class GoalMt {
   Future<GoalMtEntity> getGoalById(String id);
   Future<void> insertGoal(GoalMtEntity goal);
   Future<void> updateFinishedGoal(String id);
+  Future<void> updateReOpenGoal(String id, int newTerm, int reOpen);
   Future<void> deleteGoal(String id);
 }

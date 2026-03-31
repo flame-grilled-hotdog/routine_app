@@ -4,7 +4,7 @@ import 'package:routine_app/repository/goal_mt.dart';
 class GoalMtMock implements GoalMt {
 
   static List<GoalMtEntity> goals = <GoalMtEntity>[
-    GoalMtEntity(gid: 'G00001',title: '7時に起きるるるるるるるるるる',descrip: '',times: 1, frequency: 'd',term: 7,sdate: DateTime(2020, 12, 20))
+    GoalMtEntity(gid: 'G00001',title: '7時に起きるるるるるるるるるる',descrip: '',times: 1, frequency: '', term: 7, sdate: DateTime(2020, 12, 20))
   ];
 
   @override
@@ -31,6 +31,13 @@ class GoalMtMock implements GoalMt {
   @override
   Future<void> updateFinishedGoal(String id) async {
     goals.firstWhere((goal) => goal.gid == id).edate = DateTime.now();
+  }
+
+  @override
+  Future<void> updateReOpenGoal(String id, int newTerm, int reOpen) async {
+    goals.firstWhere((goal) => goal.gid == id).edate = null;
+    goals.firstWhere((goal) => goal.gid == id).term = newTerm;
+    goals.firstWhere((goal) => goal.gid == id).reOpen = reOpen;
   }
 
   @override

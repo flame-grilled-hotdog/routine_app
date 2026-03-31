@@ -50,6 +50,18 @@ class GoalMtRepository implements GoalMt {
   }
 
   @override
+  Future<void> updateReOpenGoal(String id, int newTerm, int reOpen) async {
+    DBHelper.instance.database.then((db) {
+      db.update(
+        'goal_mt',
+        {'edate': null, 'term': newTerm, 'reOpen': reOpen},
+        where: 'gid = ?',
+        whereArgs: [id],
+      );
+    });
+  }
+
+  @override
   Future<void> deleteGoal(String id) async {
     DBHelper.instance.database.then((db) {
       db.delete('goal_mt', where: 'gid = ?', whereArgs: [id]);

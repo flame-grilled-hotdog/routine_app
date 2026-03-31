@@ -20,8 +20,9 @@ class DBHelper {
 
     return await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
     );
   }
 
@@ -35,6 +36,7 @@ class DBHelper {
       times INTEGER,
       frequency TEXT NOT NULL CHECK (length(frequency) <= 1),
       term INTEGER,
+      reOpen INTEGER,
       sdate DATETIME,
       edate DATETIME);
     ''');
@@ -44,5 +46,13 @@ class DBHelper {
       gid TEXT NOT NULL CHECK (length(gid) <= 7),
       udate DATETIME);
     ''');
+  }
+
+  Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    // データベースのバージョンが上がったときの処理
+    if (oldVersion < newVersion) {
+        // 例: テーブルの変更や新しいテーブルの作成など
+        await db.execute('ALTER TABLE goal_mt ADD COLUMN reOpen INTEGER;');
+      }
   }
 }
