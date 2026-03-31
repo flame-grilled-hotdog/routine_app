@@ -41,7 +41,7 @@ class HomeApp{
     List<GoalProgressEntity> prglst = await repo.getProgressByGoalId(id);
     int a = prglst.length;
     int endTimes = (goal.term/goal.times).round();
-    if((endTimes - a) == 1) {
+    if((endTimes - a) == 0) {
       /* 目標クローズ */
       await goalRepo.updateFinishedGoal(id);
     }
