@@ -51,8 +51,8 @@ class _HomeScreenState extends State<HomeScreen> {
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
             children: [
-              for (int i=0; i<gmLst.length; i++) (Panel(num: i+1, goalId: gmLst[i].gid, title: gmLst[i].title, onGoalAdd: renewGoalState)),
-              if (gmLst.length < 3) Panel(num: 0, onGoalAdd: renewGoalState) // 画面更新 
+              for (int i=0; i<gmLst.length; i++) (panel(num: i+1, goalId: gmLst[i].gid, title: gmLst[i].title, onGoalAdd: renewGoalState)),
+              if (gmLst.length < 3) panel(num: 0, onGoalAdd: renewGoalState)
             ]
           )
         ),
@@ -61,8 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
               if(homeLst.isEmpty) Text('目標がありません。\r\nやるか、今か', style: Theme.of(context).textTheme.headlineMedium?.copyWith(color:  textColor))
               else
               Column(children: [
-                ...homeLst.map((e) => 
-                  Text("${e.title}:${e.cnt}", style: Theme.of(context).textTheme.headlineMedium?.copyWith(color:  textColor))),
+                // ...homeLst.map((e) => 
+                  // TODO 達成状況の表示
+                  // Text("${e.title}:${e.cnt}", style: Theme.of(context).textTheme.headlineMedium?.copyWith(color:  textColor))
+                // ),
                 SizedBox(height: 500, width: MediaQuery.of(context).size.width,
                   child: const TapRiveSample(),
                 )
@@ -75,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   /// 上層部
-  Widget Panel({required int num, String? goalId, String? title, required VoidCallback onGoalAdd}){
+  Widget panel({required int num, String? goalId, String? title, required VoidCallback onGoalAdd}){
     final TextStyle fontStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold,letterSpacing: 1);
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.9,
@@ -92,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 12),
                 ElevatedButton(
                   onPressed: () async{
-                    await showModalBottomSheet(context: context, builder: (context) => _GoalSetState());
+                    await showModalBottomSheet(context: context, builder: (context) => _goalSetState());
                     onGoalAdd();
                   },
                   style: ElevatedButton.styleFrom(shape: CircleBorder(), backgroundColor: textColor, foregroundColor: mainColor),
@@ -115,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _GoalSetState(){
+  Widget _goalSetState(){
 
     String title = '';
     String descrip = '';
