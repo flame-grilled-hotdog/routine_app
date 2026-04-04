@@ -43,6 +43,7 @@ dependencies:
   provider: ^6.0.0
 
 dev_dependencies:
+  flutter_native_splash: ^2.4.0
   flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
@@ -101,3 +102,12 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/routineApp.png"
+  icon_background_color: "#FFD54F"
+
+flutter_native_splash:
+  color: "#FFD54F"
+
+  android_12:
+    color: "#FFD54F"
+    image: assets/routineApp.png
+    icon_background_color: "#FFD54F"
