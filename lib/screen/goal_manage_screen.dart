@@ -115,10 +115,10 @@ Widget goalListItem({required String title, required String description, require
         children:[
             //TODO スライドで消すUXにしたい。
             ElevatedButton(onPressed: onDelete,
-              style: ElevatedButton.styleFrom(minimumSize: Size(80, 30), backgroundColor: mainColor, foregroundColor: textSubColor),
+              style: ElevatedButton.styleFrom(minimumSize: Size(80, 30), backgroundColor: mainColor, foregroundColor: bgColor),
               child: Text('削除')),
           if(edate != null) ElevatedButton(onPressed: onReOpen,
-            style: ElevatedButton.styleFrom(minimumSize: Size(80, 30), backgroundColor: mainColor, foregroundColor: textSubColor),
+            style: ElevatedButton.styleFrom(minimumSize: Size(80, 30), backgroundColor: mainColor, foregroundColor: bgColor),
             child: Text('再チャレンジ'))
          ]
       ),
