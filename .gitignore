@@ -1,4 +1,6 @@
-# Miscellaneous
+# =========================
+# General
+# =========================
 *.class
 *.log
 *.pyc
@@ -12,34 +14,84 @@
 .swiftpm/
 migrate_working_dir/
 
-# IntelliJ related
+# =========================
+# IDE
+# =========================
 *.iml
 *.ipr
 *.iws
 .idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
+# VSCode（必要ならコメントアウト解除）
 #.vscode/
 
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# =========================
+# Flutter / Dart
+# =========================
 .dart_tool/
+.flutter-plugins
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
-/build/
-/coverage/
+build/
+coverage/
 
-# Symbolication related
+# API docs
+**/doc/api/
+
+# =========================
+# Flutter Generated (重要)
+# =========================
+# Flutter iOS/macOS生成物
+ios/Flutter/ephemeral/
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+
+macos/Flutter/ephemeral/
+macos/Flutter/Generated.xcconfig
+
+# Plugin registrant（自動生成）
+ios/Runner/GeneratedPluginRegistrant.*
+macos/Flutter/GeneratedPluginRegistrant.swift
+
+# =========================
+# CocoaPods
+# =========================
+# Pods本体は管理しない
+ios/Pods/
+ios/.symlinks/
+
+# Pod installのキャッシュ系
+ios/Flutter/.last_build_id
+
+# =========================
+# Xcode
+# =========================
+# ビルド成果物
+ios/build/
+DerivedData/
+
+# ワークスペースユーザ設定
+*.xcworkspace/xcuserdata/
+*.xcuserdatad/
+*.xcuserstate
+
+# =========================
+# Android
+# =========================
+android/.gradle/
+android/app/debug/
+android/app/profile/
+android/app/release/
+
+# =========================
+# Symbol / Obfuscation
+# =========================
 app.*.symbols
-
-# Obfuscation related
 app.*.map.json
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# =========================
+# Unity
+# =========================
+unity/
+ios/UnityLibrary/
