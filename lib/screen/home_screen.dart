@@ -57,21 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ),
         Expanded(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              if(homeLst.isEmpty) Text('目標がありません。\r\nやるか、今か', style: Theme.of(context).textTheme.headlineMedium?.copyWith(color:  textColor))
-              else
-              Column(children: [
-                // ...homeLst.map((e) => 
-                  // TODO 達成状況の表示
-                  // Text("${e.title}:${e.cnt}", style: Theme.of(context).textTheme.headlineMedium?.copyWith(color:  textColor))
-                // ),
-                SizedBox(height: 500, width: MediaQuery.of(context).size.width,
-                  child: const TapRiveSample(),
-                )
-              ])
-            ])
-          )
-        
+          child: homeLst.isEmpty ? Center(child: Text('目標がありません。\r\nやるか、今か', style: TextStyle(fontSize: 20, color: textColor))) :
+            Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [for (int i=0; i<homeLst.length; i++) _goalProgress(i,homeLst[i])])
+        )
       ]
     ));
   }
@@ -101,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Text('＋', style:fontStyle),
                 )
               })else...({
-                Center(child: Text(title!, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: textSubColor))),
+                Center(child: Text(title!, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: textColor))),
                 const SizedBox(height: 1),
                 ElevatedButton(
                   onPressed: () async {
@@ -138,10 +126,41 @@ class _HomeScreenState extends State<HomeScreen> {
       ))
     );
   }
+
+  Widget _goalProgress(int num, Home h){
+    return
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox( height: 600, width: 100, child:
+                ListView(reverse: true, children: [
+                  for (int i=0; i<h.cnt; i++) ...[
+                    Container(width: 100, height:20, decoration: BoxDecoration(color: subColor, borderRadius: BorderRadius.circular(12))),
+                    const SizedBox(height: 2),
+                  ],
+                ],)
+              ),
+              const SizedBox(height: 4),
+              Text('目標${num + 1}', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: textSubColor))
+            ]
+          ),
+          SizedBox(width: 8)
+        ]
+      );
+  }
+
+  // TODO live2D試し実装
+  Widget _testRiv(){
+    return SizedBox(height: 500, width: MediaQuery.of(context).size.width,
+      child: const TapRiveSample(),
+    );
+  }
 }
 
 /// 下層部
-
 class Home{
   String gid;
   String? title;
