@@ -9,7 +9,7 @@ class TapRiveSample extends StatefulWidget {
 }
 
 class _TapRiveSampleState extends State<TapRiveSample> {
-  SMITrigger? tapTrigger;
+  SMIBool? night;
 
   void _onRiveInit(Artboard artboard) {
     final controller = StateMachineController.fromArtboard(
@@ -20,20 +20,16 @@ class _TapRiveSampleState extends State<TapRiveSample> {
     if (controller != null) {
       artboard.addController(controller);
 
-      final input = controller.findInput('Night');
-
-      if (input is SMITrigger) {
-        tapTrigger = input;
-      }
-      // デバッグ（超おすすめ）
-      for (var i in controller.inputs) {
-        print('Input name: ${i.name}');
+      for (final i in controller.inputs) {
+        if (i is SMIBool) {
+          if (i.name == 'Night?') night = i;
+        }
       }
     }
   }
 
   void _onTap() {
-    tapTrigger?.fire(); // ← ここだけ
+    night!.value=night!.value==true?false:true;
   }
 
   @override

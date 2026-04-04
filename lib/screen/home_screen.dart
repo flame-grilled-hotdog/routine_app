@@ -5,31 +5,23 @@ import 'package:routine_app/screen/design.dart';
 import 'main_charac.dart';
 
 /// メイン画面
-
-HomeApp homeApp = HomeApp(env: 0);
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.env});
+  final int env;
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class Home{
-  String gid;
-  String? title;
-  int cnt;
-  Home({required this.gid, required this.cnt, this.title});  
-}
-
 class _HomeScreenState extends State<HomeScreen> {
-
-  List<GoalEntity> gmLst=[];
+  HomeApp get homeApp => HomeApp(env: widget.env);
+  List<GoalMtEntity> gmLst=[];
   List<Home> homeLst = [];
 
   void renewGoalState() async {
-    final List<GoalEntity> data = await homeApp.getValidGoal();
+    final List<GoalMtEntity> data = await homeApp.getValidGoal();
 
     List<Home> a = [];
-    for (GoalEntity d in data){
+    for (GoalMtEntity d in data){
       Home b = await homeApp.getProgressByGoalId(d.gid);
       b.title=d.title;
       a.add(b);
@@ -59,41 +51,21 @@ class _HomeScreenState extends State<HomeScreen> {
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
             children: [
-              for (int i=0; i<gmLst.length; i++) (Panel(num: i+1, goalId: gmLst[i].gid, title: gmLst[i].title, onGoalAdd: renewGoalState)),
-              if (gmLst.length < 3) Panel(num: 0, onGoalAdd: renewGoalState) // 画面更新 
+              for (int i=0; i<gmLst.length; i++) (panel(num: i+1, goalId: gmLst[i].gid, title: gmLst[i].title, onGoalAdd: renewGoalState)),
+              if (gmLst.length < 3) panel(num: 0, onGoalAdd: renewGoalState)
             ]
           )
         ),
         Expanded(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              if(homeLst.isEmpty) Text('目標がありません。\r\nやるか、今か', style: Theme.of(context).textTheme.headlineMedium?.copyWith(color:  textColor))
-              else
-              Column(children: [
-                ...homeLst.map((e) => 
-                  Text("${e.title}:${e.cnt}", style: Theme.of(context).textTheme.headlineMedium?.copyWith(color:  textColor))),
-                SizedBox(height: 500, width: MediaQuery.of(context).size.width,
-                  child: const TapRiveSample(),
-                )
-              ])
-            ])
-          )
-        
+          child: homeLst.isEmpty ? Center(child: Text('目標がありません。\r\nやるか、今か', style: TextStyle(fontSize: 20, color: textColor))) :
+            Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [for (int i=0; i<homeLst.length; i++) _goalProgress(i,homeLst[i])])
+        )
       ]
     ));
   }
-}
 
-/// 上層部
-class Panel extends StatelessWidget {
-  final int num;
-  final String? goalId;
-  final String? title;
-  final VoidCallback onGoalAdd;
-
-  const Panel({super.key, required this.num, this.goalId, this.title, required this.onGoalAdd});
-
-  @override
-  Widget build(BuildContext context) {
+  /// 上層部
+  Widget panel({required int num, String? goalId, String? title, required VoidCallback onGoalAdd}){
     final TextStyle fontStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold,letterSpacing: 1);
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.9,
@@ -110,14 +82,14 @@ class Panel extends StatelessWidget {
                 const SizedBox(height: 12),
                 ElevatedButton(
                   onPressed: () async{
-                    await showModalBottomSheet(context: context, builder: (context) => const GoalSet());
+                    await showModalBottomSheet(context: context, builder: (context) => _goalSetState());
                     onGoalAdd();
                   },
                   style: ElevatedButton.styleFrom(shape: CircleBorder(), backgroundColor: textColor, foregroundColor: mainColor),
                   child: Text('＋', style:fontStyle),
                 )
               })else...({
-                Center(child: Text(title!, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: textSubColor))),
+                Center(child: Text(title!, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: textColor))),
                 const SizedBox(height: 1),
                 ElevatedButton(
                   onPressed: () async {
@@ -132,40 +104,66 @@ class Panel extends StatelessWidget {
       ))
     );
   }
+
+  Widget _goalSetState(){
+
+    String title = '';
+    String descrip = '';
+    return Container(
+      color: Colors.white,
+      child: 
+        Form(child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+          child: Column(children: [
+              TextFormField(decoration: const InputDecoration(labelText: '目標タイトル'), maxLines: 1, onChanged: (value) {title = value;}),
+              TextFormField(decoration: const InputDecoration(labelText: '説明'), maxLines: 1, onChanged: (value) {descrip = value;}),
+              Text('1日1回（7回）'),
+              const SizedBox(height: 8),
+              ElevatedButton(onPressed: () async {
+                await homeApp.addGoal(title, descrip);
+                Navigator.pop(context, true);}, child: const Text('追加'))
+          ])
+      ))
+    );
+  }
+
+  Widget _goalProgress(int num, Home h){
+    return
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox( height: 600, width: 100, child:
+                ListView(reverse: true, children: [
+                  for (int i=0; i<h.cnt; i++) ...[
+                    Container(width: 100, height:20, decoration: BoxDecoration(color: subColor, borderRadius: BorderRadius.circular(12))),
+                    const SizedBox(height: 2),
+                  ],
+                ],)
+              ),
+              const SizedBox(height: 4),
+              Text('目標${num + 1}', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: textSubColor))
+            ]
+          ),
+          SizedBox(width: 8)
+        ]
+      );
+  }
+
+  // TODO live2D試し実装
+  Widget _testRiv(){
+    return SizedBox(height: 500, width: MediaQuery.of(context).size.width,
+      child: const TapRiveSample(),
+    );
+  }
 }
-
-class GoalSet extends StatefulWidget {
-  const GoalSet({super.key});
-
-  @override
-  State<GoalSet> createState() => _GoalSetState();
-}
-
-class _GoalSetState extends State<GoalSet> {
-
-  String title = '';
-  String descrip = '';
-
-  @override
-  Widget build(BuildContext context) {
-        return Container(
-          color: Colors.white,
-          child: 
-            Form(child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-              child: Column(children: [
-                  TextFormField(decoration: const InputDecoration(labelText: '目標タイトル'), maxLines: 1, onChanged: (value) {title = value;}),
-                  TextFormField(decoration: const InputDecoration(labelText: '説明'), maxLines: 1, onChanged: (value) {descrip = value;}),
-                  Text('1日1回（7回）'),
-                  const SizedBox(height: 8),
-                  ElevatedButton(onPressed: () async {
-                    await homeApp.addGoal(title, descrip);
-                    Navigator.pop(context, true);}, child: const Text('追加'))
-              ])
-          ))
-        );
-      }
-}
-
 
 /// 下層部
+class Home{
+  String gid;
+  String? title;
+  int cnt;
+  Home({required this.gid, required this.cnt, this.title});  
+}
