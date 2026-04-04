@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '習慣化街づくり',
-      home: const SplashScreen(),
+      home: const MainScreen(),
       locale: Locale('ja'),
       // supportedLocales: const [Locale('en'), Locale('ja'), Locale('zh', 'TW')],
     );
