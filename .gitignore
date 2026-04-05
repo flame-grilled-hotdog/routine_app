@@ -93,5 +93,5 @@ app.*.map.json
 # =========================
 # Unity
 # =========================
-unity/
+/unity/
 ios/UnityLibrary/
