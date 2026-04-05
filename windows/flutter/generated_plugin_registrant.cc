@@ -6,9 +6,12 @@
 
 #include "generated_plugin_registrant.h"
 
+#include <flutter_unity_widget/flutter_unity_widget_plugin.h>
 #include <rive_common/rive_plugin.h>
 
 void RegisterPlugins(flutter::PluginRegistry* registry) {
+  FlutterUnityWidgetPluginRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("FlutterUnityWidgetPlugin"));
   RivePluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("RivePlugin"));
 }
