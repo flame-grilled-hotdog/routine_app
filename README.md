@@ -1,5 +1,64 @@
 # routine_app
+---
+## 2026/04
+# Setup & Run Guide (Flutter + iOS)
 
+本プロジェクトをGitから取得し、iOSシミュレータまたは実機で動作確認するまでの手順を記載する。
+
+## 前提環境
+
+以下がインストールされていること：
+
+- Flutter SDK
+- Xcode
+- CocoaPods
+- Homebrew（推奨）
+
+## 手順
+### 0. バージョン確認
+```bash
+flutter --version
+pod --version
+```
+### 1. リポジトリを取得
+```bash
+git clone <リポジトリURL>
+cd routine_app
+```
+### 2. Flutter依存関係の取得
+```bash
+flutter pub get
+```
+これにより以下が生成されます：
+	•	ios/Flutter/Generated.xcconfig
+	•	各種Plugin設定
+### 3. iOS依存関係のインストール
+```bash
+cd ios
+pod install
+cd ..
+```
+※ Podfile.lock はGit管理対象のため、基本的には差分が出ないことが望ましい
+### 4. Xcodeで実行
+```bash
+open ios/Runner.xcworkspace
+```
+Xcode上でビルドターゲットに任意のシミュレータ or iPhone実機を指定し、実行ボタンからビルド実行
+
+## 備考
+	•	flutter pub get と pod install は各開発者が実行する前提
+	•	依存関係は lockファイルで固定される
+	•	.gitignore に従い生成物は管理しない
+## トラブル時のリセット手順
+```bash
+flutter clean
+flutter pub get
+cd ios
+rm -rf Pods Podfile.lock
+pod install
+```
+
+---
 
 ## 2025/12
 アーキテクチャ構成決め
